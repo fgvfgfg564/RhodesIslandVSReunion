@@ -5,31 +5,34 @@ import Characters.Jessica;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import misc.*;
+import particles.Particle;
 
 public class GameEngine {
 
     Graphics g;
+    public ArrayList<MovableObject> objects = new ArrayList<>();
 
     public GameEngine(Graphics g) {
         this.g = g;
     }
 
-    public void mainLoop(){
-        ImagePainter battlefield = new ImagePainter("src/scenery/battlefield.png",0,0);
-        ArrayList<Agent> agents = new ArrayList<>();
-        while(true){
-            for(Agent each: agents){
+    public void mainLoop() {
+        ImagePainter battlefield = new ImagePainter("src/scenery/battlefield.png", 0, 0);
+        objects.add(new Jessica(this, 0, 0));
+        while (true) {
+            for (MovableObject each : (ArrayList<MovableObject>)objects.clone()) {
                 each.loop();
             }
+            objects.removeIf(each -> each.isRubbish);
+
             battlefield.paintComponent(g);
-            agents.clear();
-            for (int i = 0; i < Settings.height; i++) {
-                for (int j = 0; j < Settings.width; j++) {
-                    if(Math.random()<0.5)agents.add(new Jessica(i, j));
-                }
+            for (MovableObject each : objects) {
+                each.paintComponent(g);
             }
-            for (Agent i : agents) {
-                i.paintComponent(g);
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }
