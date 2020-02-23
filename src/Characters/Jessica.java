@@ -1,11 +1,8 @@
 package Characters;
 
-import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
-import javafx.util.Pair;
 import javax.imageio.ImageIO;
 import misc.Settings;
 
@@ -25,6 +22,6 @@ public class Jessica extends Agent {
     }
 
     @Override
-    void loop() {
+    public void loop() {
     }
 }
